@@ -5124,8 +5124,10 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxState.prototype.update.call(this,elapsed);
 		if(this.camerashaker == true) {
 			flixel_tweens_FlxTween.tween(this.hudcam,{ zoom : 1.1},0.5,{ ease : flixel_tweens_FlxEase.sineOut});
+			flixel_tweens_FlxTween.tween(this.maincam,{ zoom : 0.8},0.5,{ ease : flixel_tweens_FlxEase.sineOut});
 		} else {
 			flixel_tweens_FlxTween.tween(this.hudcam,{ zoom : 1},0.5,{ ease : flixel_tweens_FlxEase.sineOut});
+			flixel_tweens_FlxTween.tween(this.maincam,{ zoom : 1},0.5,{ ease : flixel_tweens_FlxEase.sineOut});
 		}
 		if(this.shakethemouse == true) {
 			openfl_Lib.get_application().__window.warpMouse(flixel_FlxG.mouse.screenX + flixel_FlxG.random.int(-30,30),flixel_FlxG.mouse.screenY + flixel_FlxG.random.int(-10,10));
@@ -7853,7 +7855,7 @@ var Player = function(xPos,yPos) {
 	this._facingFlip.h[1] = { x : true, y : false};
 	this._facingFlip.h[16] = { x : false, y : false};
 	this.acceleration.set_y(this.gravity);
-	this.maxVelocity.set_x(this.SPEED);
+	this.maxVelocity.set_x(this.stopaccel);
 };
 $hxClasses["Player"] = Player;
 Player.__name__ = "Player";
@@ -7918,9 +7920,9 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.acceleration.set_x(0);
 		}
 		if(sprint) {
-			this.SPEED = 310;
+			this.stopaccel = 800;
 		} else {
-			this.SPEED = 200;
+			this.stopaccel = 600;
 		}
 	}
 	,jump: function() {
@@ -7936,6 +7938,7 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.animatione();
 			this.jump();
 		}
+		this.maxVelocity.set_x(this.stopaccel);
 		flixel_FlxSprite.prototype.update.call(this,elapsed);
 	}
 	,__class__: Player
@@ -73854,7 +73857,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 85375;
+	this.version = 94539;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
