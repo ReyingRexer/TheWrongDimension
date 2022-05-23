@@ -5100,7 +5100,11 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	}
 	,pausinggame: function() {
 		var pauseSubState = new Paused();
-		openfl_Lib.get_application().__window.set_title("it worked?");
+		var failiure = new YouthoughtState();
+		var nextState = new YouthoughtState();
+		if(flixel_FlxG.game._state.switchTo(nextState)) {
+			flixel_FlxG.game._requestedState = nextState;
+		}
 	}
 	,restart: function() {
 		var gameover = new FailSubState();
@@ -8729,6 +8733,36 @@ Xml.prototype = {
 	}
 	,__class__: Xml
 };
+var YouthoughtState = function(MaxSize) {
+	flixel_FlxState.call(this,MaxSize);
+};
+$hxClasses["YouthoughtState"] = YouthoughtState;
+YouthoughtState.__name__ = "YouthoughtState";
+YouthoughtState.__super__ = flixel_FlxState;
+YouthoughtState.prototype = $extend(flixel_FlxState.prototype,{
+	create: function() {
+		flixel_FlxState.prototype.create.call(this);
+		var timer = new flixel_util_FlxTimer();
+		var _this = flixel_FlxG.sound.music;
+		_this.cleanup(_this.autoDestroy,true);
+		timer.start(0.05,function(tmr) {
+			var number = flixel_FlxG.random.int(0,3);
+			if(number == 0) {
+				openfl_Lib.get_application().__window.set_title("RESTART NOW");
+			} else if(number == 1) {
+				openfl_Lib.get_application().__window.set_title("HE IS MELTING");
+			} else if(number == 2) {
+				openfl_Lib.get_application().__window.set_title("OH GOD");
+			} else if(number == 3) {
+				openfl_Lib.get_application().__window.set_title("BUG REPORT");
+			}
+		},0);
+	}
+	,update: function(elapsed) {
+		flixel_FlxState.prototype.update.call(this,elapsed);
+	}
+	,__class__: YouthoughtState
+});
 var flixel_IFlxBasic = function() { };
 $hxClasses["flixel.IFlxBasic"] = flixel_IFlxBasic;
 flixel_IFlxBasic.__name__ = "flixel.IFlxBasic";
@@ -73820,7 +73854,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 943027;
+	this.version = 85375;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
